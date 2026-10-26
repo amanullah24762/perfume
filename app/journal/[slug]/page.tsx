@@ -1,0 +1,7 @@
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { FinalCta, SiteShell } from "@/components/site-shell";
+import { posts } from "@/lib/site-data";
+export function generateStaticParams(){return posts.map(p=>({slug:p.slug}))}
+export default async function Post({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const p=posts.find(x=>x.slug===slug);if(!p)notFound();return <SiteShell><article className="article"><Link href="/journal" className="text-link"><ArrowLeft size={15}/> Back to journal</Link><p className="eyebrow">{p.tag} · {p.date}</p><h1>{p.title}</h1><p className="article-deck">{p.excerpt}</p><div className={"article-image post-"+posts.indexOf(p)}/><div className="article-body"><p>Fragrance is most compelling when it moves with you rather than announcing itself before you arrive. The first impression matters, but the hours that follow are where a composition becomes personal.</p><h2>Start with attention</h2><p>Spray once on clean skin and resist the instinct to judge immediately. Bright top notes naturally recede. Give the heart time to appear, then notice the texture that remains close to the skin.</p><blockquote>Choose the scent that makes you feel more like yourself—not the one that performs the loudest.</blockquote><h2>Make room for memory</h2><p>Wear each candidate on an ordinary day. The right fragrance should fit the life you already have while adding a small, invisible pleasure to it.</p></div></article><FinalCta/></SiteShell>}
